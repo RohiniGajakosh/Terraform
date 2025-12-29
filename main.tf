@@ -5,7 +5,7 @@ provider "aws" {
 #key_value pair
 resource "aws_key_pair" "deployerkey" {
   key_name   = "generaterdkey"
-  public_key = file("generatekey.pub")
+  public_key = file("~/.ssh/generatekey.pub")
 }
 
 resource "aws_vpc" "my_vpc" {
