@@ -1,6 +1,21 @@
-output "public_ip" {
-  value = aws_instance.myec2[*].public_ip
+#outputs for multiple instances using count
+
+# output "public_ip" {
+#   value = aws_instance.myec2[*].public_ip
+# }
+# output "public_dns" {
+#   value = aws_instance.myec2[*].public_dns
+# }
+
+#outputs for multiple instances using for loop                                                                 
+# output "public_ip" {
+#   value = [for key in aws_instance.myec2 : key.public_ip]
+  
+# }
+
+output "bucket_name" {
+  value = aws_s3_bucket.maabucket.bucket
 }
-output "public_dns" {
-  value = aws_instance.myec2[*].public_dns
+output "s3_object_url" {
+  value = "${aws_s3_bucket.maabucket.bucket}/${aws_s3_object.bucket_object.key}"
 }

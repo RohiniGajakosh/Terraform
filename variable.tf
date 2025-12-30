@@ -8,6 +8,10 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
+variable "env"{
+  type = string
+  default = "dev"
+}
 variable "ec2_root_volume_size" {
   type = number
   default = 8
