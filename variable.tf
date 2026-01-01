@@ -10,7 +10,7 @@ variable "instance_type" {
 
 variable "env"{
   type = string
-  default = "dev"
+  default = "prod"
 }
 variable "ec2_root_volume_size" {
   type = number
