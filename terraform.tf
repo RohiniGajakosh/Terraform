@@ -8,8 +8,9 @@ terraform {
   backend "s3" {
     bucket = "my-gitsecure-bucket"
     key = "remotebackend/terraform.tfstate"
-    dynamodb_table = "my-dynamodb-lock-table"
     region = "ap-south-1"
+    encrypt = true # to encrypt the state file at rest
+    use_lockfile = true # to provide state locking 
   }
 }
 

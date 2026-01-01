@@ -1,7 +1,7 @@
 
 #key_value pair
 resource "aws_key_pair" "deployerkey" {
-  key_name   = "generaterdkey"
+  key_name   = "${var.env}_generaterdkey"
   public_key = file("~/.ssh/generatekey.pub")
 }
 
@@ -10,14 +10,14 @@ resource "aws_vpc" "my_vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
   tags = {
-    Name = "my_vpc"
+    Name = "${var.env}_my_vpc"
   }
 }
 
 resource "aws_internet_gateway" "my_igw" {
   vpc_id = aws_vpc.my_vpc.id
   tags = {
-    Name = "my_igw"
+    Name = "${var.env}_my_igw"
   
   }
 }
@@ -28,7 +28,7 @@ resource "aws_subnet" "my_public_subnet" {
   availability_zone       = "ap-south-1a"
   map_public_ip_on_launch = true
   tags = {
-    Name = "my_public_subnet"
+    Name = "${var.env}_my_public_subnet"
   }
 }
 resource "aws_route_table_association" "mypublicrt" {
@@ -39,7 +39,7 @@ resource "aws_route_table_association" "mypublicrt" {
 resource "aws_route_table" "my_route_table" {
   vpc_id = aws_vpc.my_vpc.id
   tags = {
-    Name = "my_route_table"
+    Name = "${var.env}_my_route_table"
   }
   route {
     cidr_block = "0.0.0.0/0"
@@ -83,15 +83,15 @@ resource "aws_security_group" "mysg" {
     description = "allow all outbound traffic"
   }
   tags = {
-    Name = "mysg"
+    Name = "${var.env}_mysg"
   }
 }
 
 resource "aws_instance" "myec2" {
   #count = 2 #to create multiple instances with same configuration
   for_each = tomap({
-    "myec2instance1" = "Instance 1"
-    "myec2instance2" = "Instance 2"
+    "${var.env}_myec2instance1" = "Instance 1"
+    "${var.env}_myec2instance2" = "Instance 2"
   })
   ami                         = var.ami_id 
   subnet_id                   = aws_subnet.my_public_subnet.id
@@ -119,7 +119,7 @@ resource "aws_instance" "myec2" {
 # }
 
 # resource "aws_s3_bucket" "maabucket" {
-#   bucket = "rohinibucket-${random_id.bucket_id.hex}"
+#   bucket = "${var.env}_bucket-${random_id.bucket_id.hex}"
 # }
 
 # resource "aws_s3_object" "bucket_object" {
@@ -127,8 +127,8 @@ resource "aws_instance" "myec2" {
 #   key    = "files/shell.sh"  #path in the bucket
 #   source = "shell.sh" #local path of the file to be uploaded
 #   etag   = filemd5("shell.sh") #to check if the file has changed
-
 #   }
+
 # resource "aws_iam_role" "SSM_role" {
 #   name = "SSM_Role"
 
