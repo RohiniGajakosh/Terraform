@@ -6,4 +6,4 @@ sudo apt-get install nginx -y
 sudo systemctl start nginx
 sudo systemctl enable nginx
 
-echo "Hello, World!" | sudo tee /var/www/html/index.html
+echo "Hello, World! from environment ${var.env}" | sudo tee /var/www/html/index.html
